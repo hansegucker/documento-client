@@ -34,6 +34,7 @@ class MainWindowManager:
         self.window.scanner_select.currentIndexChanged.connect(self.on_scanner_selected)
         self.window.scan_button.clicked.connect(self.start_scan)
         self.manager.scan_status_updated.connect(self.on_scan_status_updated)
+        self.window.clear_all_button.clicked.connect(self.manager.clear_all)
 
     def show(self):
         self.window.show()
@@ -53,6 +54,7 @@ class MainWindowManager:
 
     def on_scan_status_updated(self):
         self.window.save_button.setEnabled(self.manager.ready_to_save)
+        self.window.clear_all_button.setEnabled(self.manager.ready_to_save)
 
     def on_scanners_loaded(self):
         print("Scanners there")
@@ -84,6 +86,7 @@ class MainWindowManager:
         page_number = self.manager.next_page_number
         self.window.scan_button.setEnabled(False)
         self.window.save_button.setEnabled(False)
+        self.window.clear_all_button.setEnabled(False)
         self.window.status_bar.showMessage(
             f"Scan of page {page_number} is in progress …"
         )

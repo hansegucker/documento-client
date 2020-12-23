@@ -46,6 +46,12 @@ class ScanManager(QObject):
             (self.scanner.area[1][1], self.scanner.area[1][0]) if self.scanner else None
         )
 
+    def clear_all(self):
+        self.merger = PdfFileMerger()
+        self.scans.clear()
+        self.scans_in_progress = False
+        self.ready_to_save = False
+
     def _scan(self, callback=None, callback_ocr=None):
         scan = Scan()
         scan.size = self.size

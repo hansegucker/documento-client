@@ -52,7 +52,8 @@ class ScanList(QAbstractListModel):
             item.reset()
 
     def clear(self):
-        self.list = []
+        while len(self.list) > 0:
+            self.pop(0)
 
     def is_empty(self):
         return len(self.list) <= 0
