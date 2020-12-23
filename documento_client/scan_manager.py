@@ -4,17 +4,33 @@ from typing import Optional, Tuple
 
 import sane
 from PyPDF2 import PdfFileMerger
+from PySide2.QtCore import QObject, Signal
 
 from scan_object import Scan, ScanList
 
 
-class ScanManager:
+class ScanManager(QObject):
+    scan_status_updated = Signal()
+
     def __init__(self):
+        super().__init__()
         self.sane_init = False
         self.scanners = []
         self.merger = PdfFileMerger()
         self.scans = ScanList()
         self.local_only = True
+        self.scans_in_progress = False
+        self.ready_to_save = False
+
+    def update_scan_status(self):
+        scans_in_progress = False
+        for scan in self.scans.list:
+            if not scan.get_filename():
+                scans_in_progress = True
+        self.scans_in_progress = scans_in_progress
+        if not self.scans_in_progress and len(self.scans.list) > 0:
+            self.ready_to_save = True
+        self.scan_status_updated.emit()
 
     @property
     def scanned_count(self):
@@ -30,26 +46,27 @@ class ScanManager:
             (self.scanner.area[1][1], self.scanner.area[1][0]) if self.scanner else None
         )
 
-    def _scan(self, callback=None):
-        temp_file, temp_filename = mkstemp(".pdf")
+    def _scan(self, callback=None, callback_ocr=None):
         scan = Scan()
         scan.size = self.size
-        print(self.scanner.area)
         self.scans.append(scan)
         img = self.scanner.scan()
         scan.set_image(img)
-        # pdf = pytesseract.image_to_pdf_or_hocr(img, extension="pdf", lang="deu")
-        # with open(temp_filename, "wb") as f:
-        #     f.write(pdf)
-        # scan.set_filename(temp_filename)
-        # Add PDF file to merger
-        # self.merger.append(fileobj=open(temp_filename, "rb"))
 
         if callback:
             callback()
 
-    def scan(self, callback=None):
-        thread = Thread(target=self._scan, args=[callback])
+        index = self.scanned_count - 1
+
+        def on_ocr_finished():
+            callback_ocr(index)
+            self.merger.append(fileobj=open(scan.filename, "rb"))
+            self.update_scan_status()
+
+        scan.do_ocr(on_ocr_finished)
+
+    def scan(self, callback=None, callback_ocr=None):
+        thread = Thread(target=self._scan, args=[callback, callback_ocr])
         thread.start()
         return thread
 

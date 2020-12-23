@@ -8,6 +8,7 @@ authors = ["Jonathan Weth <dev@jonathanweth.de>"]
 python = "^3.6,<3.10"
 PySide2 = "^5.15.2"
 python-sane = "^2.8.2"
+pytesseract = "^0.3.7"
 
 [tool.poetry.dev-dependencies]
 

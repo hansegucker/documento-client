@@ -1,3 +1,7 @@
+from tempfile import mkstemp
+from threading import Thread
+
+import pytesseract
 from PIL.ImageQt import ImageQt
 from PySide2.QtCore import QAbstractListModel, QObject, Qt, Signal
 from PySide2.QtGui import QImage
@@ -60,6 +64,7 @@ class Scan(QObject):
     def __init__(self, *args):
         super().__init__(*args)
         self.img = None
+        self.base_img = None
         self.thumb = None
         self.filename = None
         self.height = 0
@@ -79,6 +84,7 @@ class Scan(QObject):
 
     def set_image(self, image):
         self.img = ImageQt(image)
+        self.base_img = image
         self.create_thumb()
         self.data_changed.emit(self)
 
@@ -86,11 +92,8 @@ class Scan(QObject):
         self.filename = filename
         self.data_changed.emit(self)
 
-    def set_image_from_filename(self, filename):
-        self.filename = filename
-        self.img = QImage(filename)
-        self.create_thumb()
-        self.data_changed.emit(self)
+    def get_filename(self):
+        return self.filename
 
     def create_thumb(self):
         self.thumb = self.img.scaledToWidth(
@@ -102,3 +105,20 @@ class Scan(QObject):
 
     def get_image(self):
         return self.img
+
+    def _do_ocr(self, callback=None):
+        temp_file, temp_filename = mkstemp(".pdf")
+        pdf = pytesseract.image_to_pdf_or_hocr(
+            self.base_img, extension="pdf", lang="deu"
+        )
+        with open(temp_filename, "wb") as f:
+            f.write(pdf)
+        self.set_filename(temp_filename)
+
+        if callback:
+            callback()
+
+    def do_ocr(self, callback=None):
+        thread = Thread(target=self._do_ocr, args=[callback])
+        thread.start()
+        return thread

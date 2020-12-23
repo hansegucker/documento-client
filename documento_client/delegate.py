@@ -6,6 +6,8 @@ from constants import THUMBNAIL_MARGIN, THUMBNAIL_WIDTH
 from scan_object import Scan
 
 scan_image = QImage("scanner.png")
+progress_image = QImage("progress.png")
+check_image = QImage("check.png")
 
 
 class ImageableStyledItemDelegate(QStyledItemDelegate):
@@ -36,6 +38,17 @@ class ImageableStyledItemDelegate(QStyledItemDelegate):
                     style_option_view_item.rect.left() + THUMBNAIL_MARGIN,
                     style_option_view_item.rect.top() + THUMBNAIL_MARGIN,
                     mid.get_thumb(),
+                )
+                qp.drawImage(
+                    style_option_view_item.rect.left()
+                    + THUMBNAIL_WIDTH
+                    - THUMBNAIL_MARGIN
+                    - check_image.width(),
+                    style_option_view_item.rect.top()
+                    + mid.thumb_height
+                    - THUMBNAIL_MARGIN
+                    - check_image.height(),
+                    check_image if mid.get_filename() else progress_image,
                 )
             else:
                 # Show scanner icon

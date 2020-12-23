@@ -33,6 +33,7 @@ class MainWindowManager:
         # Connect other events
         self.window.scanner_select.currentIndexChanged.connect(self.on_scanner_selected)
         self.window.scan_button.clicked.connect(self.start_scan)
+        self.manager.scan_status_updated.connect(self.on_scan_status_updated)
 
     def show(self):
         self.window.show()
@@ -49,6 +50,9 @@ class MainWindowManager:
         progress_dialog.show()
 
         return progress_dialog
+
+    def on_scan_status_updated(self):
+        self.window.save_button.setEnabled(self.manager.ready_to_save)
 
     def on_scanners_loaded(self):
         print("Scanners there")
@@ -70,13 +74,19 @@ class MainWindowManager:
             f"Scan of page {self.manager.scanned_count} has been finished.", 2000
         )
 
+    def on_ocr_finished(self, index):
+        self.window.status_bar.showMessage(
+            f"OCR of page {index + 1} has been finished.", 2000
+        )
+
     def start_scan(self):
         # progress = show_progress("Scan page …")
         page_number = self.manager.next_page_number
         self.window.scan_button.setEnabled(False)
+        self.window.save_button.setEnabled(False)
         self.window.status_bar.showMessage(
             f"Scan of page {page_number} is in progress …"
         )
 
         # progress.close()
-        self.manager.scan(self.on_scan_finished)
+        self.manager.scan(self.on_scan_finished, self.on_ocr_finished)
