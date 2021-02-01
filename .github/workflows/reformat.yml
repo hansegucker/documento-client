@@ -1,0 +1,26 @@
+name: Reformat
+
+on:
+  push:
+
+jobs:
+  black:
+    name: Run black
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Run Black
+        uses: lgeiger/black-action@master
+        with:
+          args: "."
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Reformat code using black"
+          commit_options: '--no-verify --signoff'
+          file_pattern: "*.py"
