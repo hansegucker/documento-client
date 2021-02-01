@@ -15,6 +15,7 @@ class ScanManager(QObject):
     def __init__(self):
         super().__init__()
         self.sane_init = False
+        self.scanners_loaded = False
         self.scanners = []
         self.merger = PdfFileMerger()
         self.scans = ScanList()
@@ -76,9 +77,6 @@ class ScanManager(QObject):
         thread.start()
         return thread
 
-    def scanners_loaded(self):
-        pass
-
     def init_sane(self):
         if not self.sane_init:
             sane.init()
@@ -87,7 +85,7 @@ class ScanManager(QObject):
     def _get_scanners(self, callback=None):
         self.init_sane()
         self.scanners = sane.get_devices(self.local_only)
-        self.scanners_loaded()
+        self.scanners_loaded = True
         if callback:
             callback()
 
