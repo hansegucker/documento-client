@@ -30,11 +30,11 @@ Pillow = "*"
 
 [[package]]
 name = "python-sane"
-version = "2.8.2"
+version = "2.9.1"
 description = "This is the python-sane package"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.6"
 
 [[package]]
 name = "shiboken2"
@@ -47,7 +47,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <3.10"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6,<3.10"
-content-hash = "64e734beaabdb7538ac7dbc315afadda177f2ea76bf8ff3b6119ec3535aa0f9c"
+content-hash = "cdaf8b9f84a8a3513bb00e8d549834b9256e9b9a787afe13195596e919ff03a4"
 
 [metadata.files]
 pillow = [
@@ -92,7 +92,7 @@ pytesseract = [
     {file = "pytesseract-0.3.7.tar.gz", hash = "sha256:4ecfc898d00a70fcc38d2bce729de1597c67e7bc5d2fa26094714c9f5b573645"},
 ]
 python-sane = [
-    {file = "python-sane-2.8.2.tar.gz", hash = "sha256:0f47e1c34ca94dcbe3136a05f05b342f055e6c129743f7f6e1a6519d6000316b"},
+    {file = "python-sane-2.9.1.tar.gz", hash = "sha256:24098eb83c6e8e1b01126e6ad7a5b0479c07b013c5d220509b555892fe4925de"},
 ]
 shiboken2 = [
     {file = "shiboken2-5.15.2-5.15.2-cp27-cp27m-macosx_10_13_intel.whl", hash = "sha256:03f41b0693b91c7f89627f1085a4ecbe8591c03f904118a034854d935e0e766c"},
