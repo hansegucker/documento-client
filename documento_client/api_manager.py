@@ -33,9 +33,7 @@ class APIManager(QObject):
 
     def login(self, username, password):
         # Get auth token
-        r = requests.post(
-            self.login_url, json={"username": username, "password": password,},
-        )
+        r = requests.post(self.login_url, json={"username": username, "password": password,},)
         self.evaluate_res(r)
         self.token = r.json()["token"]
         return r.ok

@@ -2,11 +2,9 @@ from tempfile import mkstemp
 from threading import Thread
 
 import pytesseract
+from constants import THUMBNAIL_WIDTH
 from PIL.ImageQt import ImageQt
 from PySide2.QtCore import QAbstractListModel, QObject, Qt, Signal
-from PySide2.QtGui import QImage
-
-from constants import THUMBNAIL_WIDTH
 
 
 class ScanList(QAbstractListModel):
@@ -97,9 +95,7 @@ class Scan(QObject):
         return self.filename
 
     def create_thumb(self):
-        self.thumb = self.img.scaledToWidth(
-            THUMBNAIL_WIDTH, mode=Qt.SmoothTransformation
-        )
+        self.thumb = self.img.scaledToWidth(THUMBNAIL_WIDTH, mode=Qt.SmoothTransformation)
 
     def get_thumb(self):
         return self.thumb
@@ -109,9 +105,7 @@ class Scan(QObject):
 
     def _do_ocr(self, callback=None):
         temp_file, temp_filename = mkstemp(".pdf")
-        pdf = pytesseract.image_to_pdf_or_hocr(
-            self.base_img, extension="pdf", lang="deu"
-        )
+        pdf = pytesseract.image_to_pdf_or_hocr(self.base_img, extension="pdf", lang="deu")
         with open(temp_filename, "wb") as f:
             f.write(pdf)
         self.set_filename(temp_filename)

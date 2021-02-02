@@ -1,10 +1,9 @@
 import sys
 
+from api_manager import AuthException
 from PySide2.QtCore import QFile, QIODevice, QObject, Signal
 from PySide2.QtUiTools import QUiLoader
 from requests import RequestException
-
-from api_manager import AuthException
 
 
 class LoginDialog(QObject):

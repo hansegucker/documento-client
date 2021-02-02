@@ -1,8 +1,7 @@
 import sys
 
-from PySide2.QtCore import Qt
+from PySide2.QtCore import Qt  # noqa
 from PySide2.QtWidgets import QApplication
-
 from scan_manager import ScanManager
 from ui_manager import MainWindowManager
 
