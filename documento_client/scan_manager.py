@@ -1,11 +1,9 @@
-from tempfile import mkstemp
 from threading import Thread
 from typing import Optional, Tuple
 
 import sane
 from PyPDF2 import PdfFileMerger
 from PySide2.QtCore import QObject, Signal
-
 from scan_object import Scan, ScanList
 
 
@@ -43,9 +41,7 @@ class ScanManager(QObject):
 
     @property
     def size(self) -> Optional[Tuple[int, int]]:
-        return (
-            (self.scanner.area[1][1], self.scanner.area[1][0]) if self.scanner else None
-        )
+        return (self.scanner.area[1][1], self.scanner.area[1][0]) if self.scanner else None
 
     def clear_all(self):
         self.merger = PdfFileMerger()

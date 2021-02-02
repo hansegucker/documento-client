@@ -1,8 +1,7 @@
+from constants import THUMBNAIL_MARGIN, THUMBNAIL_WIDTH
 from PySide2.QtCore import QRectF, QSize
 from PySide2.QtGui import QImage, QPainter, QPainterPath, QPen, Qt
 from PySide2.QtWidgets import QStyledItemDelegate
-
-from constants import THUMBNAIL_MARGIN, THUMBNAIL_WIDTH
 from scan_object import Scan
 
 scan_image = QImage("scanner.png")
@@ -52,12 +51,8 @@ class ImageableStyledItemDelegate(QStyledItemDelegate):
                 )
             else:
                 # Show scanner icon
-                left = (
-                    (THUMBNAIL_WIDTH + 2 * THUMBNAIL_MARGIN) - scan_image.width()
-                ) / 2
-                top = (
-                    (mid.thumb_height + 2 * THUMBNAIL_MARGIN) - scan_image.height()
-                ) / 2
+                left = ((THUMBNAIL_WIDTH + 2 * THUMBNAIL_MARGIN) - scan_image.width()) / 2
+                top = ((mid.thumb_height + 2 * THUMBNAIL_MARGIN) - scan_image.height()) / 2
                 qp.drawImage(
                     style_option_view_item.rect.left() + left,
                     style_option_view_item.rect.top() + top,
@@ -80,8 +75,7 @@ class ImageableStyledItemDelegate(QStyledItemDelegate):
                 )
             else:
                 return QSize(
-                    THUMBNAIL_WIDTH + 2 * THUMBNAIL_MARGIN,
-                    mid.thumb_height + 2 * THUMBNAIL_MARGIN,
+                    THUMBNAIL_WIDTH + 2 * THUMBNAIL_MARGIN, mid.thumb_height + 2 * THUMBNAIL_MARGIN,
                 )
         else:
             return super().sizeHint(style_option_view_item, model_index)

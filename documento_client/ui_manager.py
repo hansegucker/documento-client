@@ -1,13 +1,12 @@
 import sys
 
+from api_manager import APIManager
+from delegate import ImageableStyledItemDelegate
+from login_dialog import LoginDialog
 from PySide2.QtCore import QFile, QIODevice, Qt
 from PySide2.QtGui import QPixmap
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtWidgets import QLabel, QMessageBox
-
-from api_manager import APIManager
-from delegate import ImageableStyledItemDelegate
-from login_dialog import LoginDialog
 from scan_manager import ScanManager
 
 
@@ -32,9 +31,7 @@ class MainWindowManager:
 
         # Connect listview for scans with model and delegate
         self.window.scan_list.setModel(self.manager.scans)
-        self.window.scan_list.setItemDelegate(
-            ImageableStyledItemDelegate(parent=manager.scans)
-        )
+        self.window.scan_list.setItemDelegate(ImageableStyledItemDelegate(parent=manager.scans))
 
         # Add status bar labels
         self.status_label = QLabel("No connection")
@@ -67,7 +64,7 @@ class MainWindowManager:
 
     def set_status_offline(self):
         self.status_icon_label.setPixmap(self.status_icon_offline)
-        self.status_label.setText(f"Offline")
+        self.status_label.setText("Offline")
 
     def show(self):
         self.window.show()
@@ -144,9 +141,7 @@ class MainWindowManager:
         )
 
     def on_ocr_finished(self, index):
-        self.window.status_bar.showMessage(
-            f"OCR of page {index + 1} has been finished.", 2000
-        )
+        self.window.status_bar.showMessage(f"OCR of page {index + 1} has been finished.", 2000)
 
     def start_scan(self):
         # progress = show_progress("Scan page …")
@@ -154,9 +149,7 @@ class MainWindowManager:
         self.window.scan_button.setEnabled(False)
         self.window.save_button.setEnabled(False)
         self.window.clear_all_button.setEnabled(False)
-        self.window.status_bar.showMessage(
-            f"Scan of page {page_number} is in progress …"
-        )
+        self.window.status_bar.showMessage(f"Scan of page {page_number} is in progress …")
 
         # progress.close()
         self.manager.scan(self.on_scan_finished, self.on_ocr_finished)
