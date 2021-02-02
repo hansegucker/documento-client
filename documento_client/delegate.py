@@ -75,8 +75,7 @@ class ImageableStyledItemDelegate(QStyledItemDelegate):
                 )
             else:
                 return QSize(
-                    THUMBNAIL_WIDTH + 2 * THUMBNAIL_MARGIN,
-                    mid.thumb_height + 2 * THUMBNAIL_MARGIN,
+                    THUMBNAIL_WIDTH + 2 * THUMBNAIL_MARGIN, mid.thumb_height + 2 * THUMBNAIL_MARGIN,
                 )
         else:
             return super().sizeHint(style_option_view_item, model_index)
