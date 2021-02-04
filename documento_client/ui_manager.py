@@ -7,12 +7,14 @@ from PySide2.QtCore import QFile, QIODevice, Qt
 from PySide2.QtGui import QPixmap
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtWidgets import QLabel, QMessageBox
+from save_dialog import SaveDialog
 from scan_manager import ScanManager
 
 
 class MainWindowManager:
     def __init__(self, manager: ScanManager):
         self.login_dialog = None
+        self.save_dialog = None
         self.dialog = None
         self.manager = manager
 
@@ -53,6 +55,7 @@ class MainWindowManager:
         self.window.scan_button.clicked.connect(self.start_scan)
         self.manager.scan_status_updated.connect(self.on_scan_status_updated)
         self.window.clear_all_button.clicked.connect(self.manager.clear_all)
+        self.window.save_button.clicked.connect(self.show_save_dialog)
 
     def set_status_online(self):
         self.status_icon_label.setPixmap(self.status_icon_online)
@@ -92,12 +95,30 @@ class MainWindowManager:
         self.dialog = None
         self.set_status_online()
 
+    def show_save_dialog(self):
+        if not self.save_dialog:
+            self.save_dialog = SaveDialog(self.api, self.manager)
+            self.save_dialog.save_succeeded.connect(self.on_save_succeeded)
+            self.save_dialog.error_network.connect(self.on_api_error_network)
+            self.save_dialog.error_auth.connect(self.on_api_error_auth)
+            self.dialog = self.save_dialog
+            self.set_status_uploading()
+            self.save_dialog.show()
+
+    def on_save_succeeded(self):
+        self.save_dialog.dialog.close()
+        self.save_dialog = None
+        self.dialog = None
+        self.set_status_online()
+        self.manager.clear_all()
+
     def on_api_error_network(self):
         QMessageBox.critical(
             self.window if not self.dialog else self.dialog.dialog,
             "Network error",
             "There is a problem with the server or the network connection.",
         )
+        self.set_status_offline()
 
     def on_api_error_auth(self):
         QMessageBox.critical(
@@ -105,6 +126,7 @@ class MainWindowManager:
             "Login error",
             "There is a problem with your credentials.",
         )
+        self.set_status_offline()
         self.show_login_dialog()
 
     def show_progress(self, label):

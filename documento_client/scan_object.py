@@ -34,8 +34,9 @@ class ScanList(QAbstractListModel):
     def pop(self, index):
         self.list.pop(index)
         i = min(index, len(self.list) - 1)
-        new_index = self.createIndex(i, 0, self.list[i])
-        self.dataChanged.emit(new_index, new_index, [Qt.EditRole])
+        if i >= 0:
+            new_index = self.createIndex(i, 0, self.list[i])
+            self.dataChanged.emit(new_index, new_index, [Qt.EditRole])
 
     def data_changed(self, item):
         model_index = self.createIndex(self.list.index(item), 0, item)

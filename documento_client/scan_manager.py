@@ -1,3 +1,4 @@
+from tempfile import mkstemp
 from threading import Thread
 from typing import Optional, Tuple
 
@@ -48,6 +49,7 @@ class ScanManager(QObject):
         self.scans.clear()
         self.scans_in_progress = False
         self.ready_to_save = False
+        self.update_scan_status()
 
     def _scan(self, callback=None, callback_ocr=None):
         scan = Scan()
@@ -97,3 +99,11 @@ class ScanManager(QObject):
         self.scanner.mode = "color"
         self.scanner.resolution = 300
         return self.scanner
+
+    def save(self):
+        __, temp_filename = mkstemp(".pdf")
+
+        if self.ready_to_save:
+            self.merger.write(temp_filename)
+
+        return temp_filename

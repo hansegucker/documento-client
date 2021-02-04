@@ -1,3 +1,5 @@
+from typing import Optional
+
 import requests
 from PySide2.QtCore import QObject
 
@@ -15,6 +17,8 @@ class APIManager(QObject):
     login_url = base_url + "/api/auth/login/"
     jobs_url = base_url + "/api/print_jobs/"
     categories_url = base_url + "/api/categories/"
+    documents_url = base_url + "/api/documents/"
+    print_report_url = documents_url + "{}/print_report/"
 
     def __init__(self):
         super().__init__()
@@ -37,3 +41,28 @@ class APIManager(QObject):
         self.evaluate_res(r)
         self.token = r.json()["token"]
         return r.ok
+
+    def get_categories(self):
+        r = requests.get(self.categories_url, headers=self.headers)
+        self.evaluate_res(r)
+        return r.json()
+
+    def upload_document(self, path: str, title: str, category: Optional[int]) -> bool:
+        print(path, title, category)
+        r = requests.post(
+            self.documents_url,
+            data={"name": title, "category": category},
+            files={"file": open(path, "rb")},
+            headers=self.headers,
+        )
+        self.evaluate_res(r)
+        return r.json()
+
+    def print_report(self, document: int, report: str):
+        r = requests.post(
+            self.print_report_url.format(document), data={"report": report}, headers=self.headers
+        )
+        self.evaluate_res(r)
+        return r.json()
+
+    REPORTS = ["barcode_label", "info_page"]
