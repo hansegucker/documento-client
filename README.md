@@ -1,4 +1,4 @@
-# documento-printserver
+# documento-client
 A client application for the documento document management system
 
 ## Features
