@@ -52,7 +52,7 @@ class SaveDialog(QObject):
         print_label = self.dialog.print_label.checkState()
         print_info = self.dialog.print_info.checkState()
 
-        if not title or (category_idx != 0 and category_idx >= len(self.categories)):
+        if not title:
             return
 
         self.dialog.save_button.setEnabled(False)
