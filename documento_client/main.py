@@ -5,7 +5,8 @@ from PySide2.QtWidgets import QApplication
 from scan_manager import ScanManager
 from ui_manager import MainWindowManager
 
-if __name__ == "__main__":
+
+def main():
     app = QApplication(sys.argv)
     manager = ScanManager()
 
@@ -13,3 +14,7 @@ if __name__ == "__main__":
     ui_manager.show()
 
     sys.exit(app.exec_())
+
+
+if __name__ == "__main__":
+    main()
