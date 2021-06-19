@@ -1,9 +1,12 @@
+import os
 import sys
 
-from api_manager import AuthException
 from PySide2.QtCore import QFile, QIODevice, QObject, Signal
 from PySide2.QtUiTools import QUiLoader
 from requests import RequestException
+
+from documento_client.api_manager import AuthException
+from documento_client.constants import BASE_DIR
 
 
 class LoginDialog(QObject):
@@ -15,7 +18,7 @@ class LoginDialog(QObject):
         super().__init__(*args, **kwargs)
         self.api = api
 
-        ui_file_name = "login.ui"
+        ui_file_name = os.path.join(BASE_DIR, "login.ui")
         ui_file = QFile(ui_file_name)
 
         if not ui_file.open(QIODevice.ReadOnly):

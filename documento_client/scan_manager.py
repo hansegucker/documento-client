@@ -5,7 +5,8 @@ from typing import Optional, Tuple
 import sane
 from PyPDF2 import PdfFileMerger
 from PySide2.QtCore import QObject, Signal
-from scan_object import Scan, ScanList
+
+from documento_client.scan_object import Scan, ScanList
 
 
 class ScanManager(QObject):

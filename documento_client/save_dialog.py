@@ -1,9 +1,12 @@
+import os
 import sys
 
-from api_manager import AuthException
 from PySide2.QtCore import QFile, QIODevice, QObject, Signal
 from PySide2.QtUiTools import QUiLoader
 from requests import RequestException
+
+from documento_client.api_manager import AuthException
+from documento_client.constants import BASE_DIR
 
 
 class SaveDialog(QObject):
@@ -16,7 +19,7 @@ class SaveDialog(QObject):
         self.api = api
         self.manager = manager
 
-        ui_file_name = "save.ui"
+        ui_file_name = os.path.join(BASE_DIR, "save.ui")
         ui_file = QFile(ui_file_name)
 
         if not ui_file.open(QIODevice.ReadOnly):

@@ -1,12 +1,15 @@
-from constants import THUMBNAIL_MARGIN, THUMBNAIL_WIDTH
+import os
+
 from PySide2.QtCore import QRectF, QSize
 from PySide2.QtGui import QImage, QPainter, QPainterPath, QPen, Qt
 from PySide2.QtWidgets import QStyledItemDelegate
-from scan_object import Scan
 
-scan_image = QImage("scanner.png")
-progress_image = QImage("progress.png")
-check_image = QImage("check.png")
+from documento_client.constants import BASE_DIR, THUMBNAIL_MARGIN, THUMBNAIL_WIDTH
+from documento_client.scan_object import Scan
+
+scan_image = QImage(os.path.join(BASE_DIR, "scanner.png"))
+progress_image = QImage(os.path.join(BASE_DIR, "progress.png"))
+check_image = QImage(os.path.join(BASE_DIR, "check.png"))
 
 
 class ImageableStyledItemDelegate(QStyledItemDelegate):

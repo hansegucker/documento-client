@@ -1,14 +1,17 @@
+import os
 import sys
 
-from api_manager import APIManager
-from delegate import ImageableStyledItemDelegate
-from login_dialog import LoginDialog
 from PySide2.QtCore import QFile, QIODevice, Qt
 from PySide2.QtGui import QPixmap
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtWidgets import QLabel, QMessageBox
-from save_dialog import SaveDialog
-from scan_manager import ScanManager
+
+from documento_client.api_manager import APIManager
+from documento_client.constants import BASE_DIR
+from documento_client.delegate import ImageableStyledItemDelegate
+from documento_client.login_dialog import LoginDialog
+from documento_client.save_dialog import SaveDialog
+from documento_client.scan_manager import ScanManager
 
 
 class MainWindowManager:
@@ -19,7 +22,7 @@ class MainWindowManager:
         self.manager = manager
 
         # Load UI file from QtDesigner
-        ui_file_name = "main.ui"
+        ui_file_name = os.path.join(BASE_DIR, "main.ui")
         ui_file = QFile(ui_file_name)
         if not ui_file.open(QIODevice.ReadOnly):
             print("Cannot open {}: {}".format(ui_file_name, ui_file.errorString()))
@@ -38,9 +41,9 @@ class MainWindowManager:
         # Add status bar labels
         self.status_label = QLabel("No connection")
         self.status_icon_label = QLabel("XX")
-        self.status_icon_online = QPixmap("online.svg")
-        self.status_icon_offline = QPixmap("offline.svg")
-        self.status_icon_uploading = QPixmap("uploading.svg")
+        self.status_icon_online = QPixmap(os.path.join(BASE_DIR, "online.svg"))
+        self.status_icon_offline = QPixmap(os.path.join(BASE_DIR, "offline.svg"))
+        self.status_icon_uploading = QPixmap(os.path.join(BASE_DIR, "uploading.svg"))
 
         self.status_icon_label.setPixmap(self.status_icon_online)
 

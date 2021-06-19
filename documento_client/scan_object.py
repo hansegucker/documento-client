@@ -2,9 +2,10 @@ from tempfile import mkstemp
 from threading import Thread
 
 import pytesseract
-from constants import THUMBNAIL_WIDTH
 from PIL.ImageQt import ImageQt
 from PySide2.QtCore import QAbstractListModel, QObject, Qt, Signal
+
+from documento_client.constants import THUMBNAIL_WIDTH
 
 
 class ScanList(QAbstractListModel):
