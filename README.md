@@ -8,3 +8,9 @@ A client application for the documento document management system
 - Allows to set meta options (title/category)
 - Uploads scanned documents
 - Creates print jobs for new documents
+
+## Installation
+
+```
+sudo apt install tesseract-ocr tesseract-ocr-deu libsane-dev
+```
