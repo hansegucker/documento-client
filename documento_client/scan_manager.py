@@ -4,13 +4,13 @@ from typing import Optional, Tuple
 
 import sane
 from PyPDF2 import PdfFileMerger
-from PySide2.QtCore import QObject, Signal
+from PyQt5.QtCore import QObject, pyqtSignal
 
 from documento_client.scan_object import Scan, ScanList
 
 
 class ScanManager(QObject):
-    scan_status_updated = Signal()
+    scan_status_updated = pyqtSignal()
 
     def __init__(self):
         super().__init__()

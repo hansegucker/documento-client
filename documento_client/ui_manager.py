@@ -1,10 +1,10 @@
 import os
 import sys
 
-from PySide2.QtCore import QFile, QIODevice, Qt
-from PySide2.QtGui import QPixmap
-from PySide2.QtUiTools import QUiLoader
-from PySide2.QtWidgets import QLabel, QMessageBox
+from PyQt5 import uic
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QLabel, QMessageBox
 
 from documento_client.api_manager import APIManager
 from documento_client.constants import BASE_DIR
@@ -23,15 +23,8 @@ class MainWindowManager:
 
         # Load UI file from QtDesigner
         ui_file_name = os.path.join(BASE_DIR, "main.ui")
-        ui_file = QFile(ui_file_name)
-        if not ui_file.open(QIODevice.ReadOnly):
-            print("Cannot open {}: {}".format(ui_file_name, ui_file.errorString()))
-            sys.exit(-1)
-        loader = QUiLoader()
-        self.window = loader.load(ui_file)
-        ui_file.close()
+        self.window = uic.loadUi(ui_file_name)
         if not self.window:
-            print(loader.errorString())
             sys.exit(-1)
 
         # Connect listview for scans with model and delegate

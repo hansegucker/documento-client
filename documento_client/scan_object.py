@@ -3,7 +3,7 @@ from threading import Thread
 
 import pytesseract
 from PIL.ImageQt import ImageQt
-from PySide2.QtCore import QAbstractListModel, QObject, Qt, Signal
+from PyQt5.QtCore import QAbstractListModel, QObject, Qt, pyqtSignal
 
 from documento_client.constants import THUMBNAIL_WIDTH
 
@@ -60,7 +60,7 @@ class ScanList(QAbstractListModel):
 
 
 class Scan(QObject):
-    data_changed = Signal(QObject)
+    data_changed = pyqtSignal(QObject)
 
     def __init__(self, *args):
         super().__init__(*args)

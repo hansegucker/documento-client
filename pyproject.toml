@@ -6,10 +6,10 @@ authors = ["Jonathan Weth <dev@jonathanweth.de>"]
 
 [tool.poetry.dependencies]
 python = "^3.6,<3.10"
-PySide2 = "^5.15.2"
 python-sane = "^2.9.1"
 pytesseract = "^0.3.7"
 PyPDF2 = "^1.26.0"
+PyQt5 = "^5.15.4"
 
 [tool.poetry.dev-dependencies]
 sphinx = "^3.5"

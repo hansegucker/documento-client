@@ -1,7 +1,7 @@
 import sys
 
-from PySide2.QtCore import Qt  # noqa
-from PySide2.QtWidgets import QApplication
+from PyQt5.QtCore import Qt  # noqa
+from PyQt5.QtWidgets import QApplication
 
 from documento_client.scan_manager import ScanManager
 from documento_client.ui_manager import MainWindowManager

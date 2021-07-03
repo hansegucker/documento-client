@@ -1,8 +1,7 @@
 import os
-import sys
 
-from PySide2.QtCore import QFile, QIODevice, QObject, Signal
-from PySide2.QtUiTools import QUiLoader
+from PyQt5 import uic
+from PyQt5.QtCore import QObject, pyqtSignal
 from requests import RequestException
 
 from documento_client.api_manager import AuthException
@@ -10,9 +9,9 @@ from documento_client.constants import BASE_DIR
 
 
 class SaveDialog(QObject):
-    save_succeeded = Signal()
-    error_network = Signal()
-    error_auth = Signal()
+    save_succeeded = pyqtSignal()
+    error_network = pyqtSignal()
+    error_auth = pyqtSignal()
 
     def __init__(self, api, manager, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -20,16 +19,9 @@ class SaveDialog(QObject):
         self.manager = manager
 
         ui_file_name = os.path.join(BASE_DIR, "save.ui")
-        ui_file = QFile(ui_file_name)
+        self.dialog = uic.loadUi(ui_file_name)
 
-        if not ui_file.open(QIODevice.ReadOnly):
-            print("Cannot open {}: {}".format(ui_file_name, ui_file.errorString()))
-            sys.exit(-1)
-
-        loader = QUiLoader()
-        self.dialog = loader.load(ui_file)
         self.dialog.save_button.clicked.connect(self.save_document)
-
         self.dialog.pages_count.setText(str(self.manager.scanned_count))
 
         # Load categories

@@ -1,7 +1,7 @@
 from typing import Optional
 
 import requests
-from PySide2.QtCore import QObject
+from PyQt5.QtCore import QObject
 
 
 class APIException(Exception):

@@ -1,8 +1,8 @@
 import os
 
-from PySide2.QtCore import QRectF, QSize
-from PySide2.QtGui import QImage, QPainter, QPainterPath, QPen, Qt
-from PySide2.QtWidgets import QStyledItemDelegate
+from PyQt5.QtCore import QRectF, QSize, Qt
+from PyQt5.QtGui import QImage, QPainter, QPainterPath, QPen
+from PyQt5.QtWidgets import QStyledItemDelegate
 
 from documento_client.constants import BASE_DIR, THUMBNAIL_MARGIN, THUMBNAIL_WIDTH
 from documento_client.scan_object import Scan
