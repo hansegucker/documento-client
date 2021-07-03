@@ -2,6 +2,7 @@ image: "python:3.9"
 
 before_script:
   - pip install poetry tox
+  - apt update && apt install -y tesseract-ocr tesseract-ocr-deu libsane-dev
 
 stages:
   - test
