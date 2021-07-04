@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Categories=Office;Scanning;OCR;Archiving;
+Terminal=false
+Exec=documento-client
+Name=Documento Client
+Keywords=document;scanner;ocr;
