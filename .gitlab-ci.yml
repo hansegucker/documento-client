@@ -6,8 +6,22 @@ before_script:
 
 stages:
   - test
+  - build
 
 lint:
   stage: test
   script:
     - tox -e lint
+
+build-deb:
+  stage: build
+  before_script:
+    - apt install -y build-essential debhelper devscripts equivs dh-virtualenv
+  script:
+    - ./build-deb.sh
+    - mkdir build
+    - mv ../*.deb build/
+
+  artifacts:
+    paths:
+      - build/*
