@@ -1,0 +1,17 @@
+Source: documento-client
+Section: python
+Priority: extra
+Maintainer: Jonathan Weth <dev@jonathanweth.de>
+Build-Depends: debhelper (>= 10), python3, dh-virtualenv (>= 1.0),
+    python3-setuptools, python3-pip, python3-dev, libffi-dev
+Standards-Version: 4.5.0
+Homepage: https://edugit.org/documento/documento-client
+Vcs-Git: https://edugit.org/documento/documento-client.git
+Vcs-Browser: https://edugit.org/documento/documento-client
+
+
+Package: documento-client
+Architecture: any
+Pre-Depends: dpkg (>= 1.16.1), python3 (>= 3.6), python3-pyqt5, python3-sane, python3-pil, ${misc:Pre-Depends}
+Depends: ${misc:Depends}
+Description: A client for Documento

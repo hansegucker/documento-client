@@ -1,13 +1,31 @@
-image: "python:3.9"
+image: "debian:buster"
+
+.before-script: &before-script
+  - apt update && apt install -y tesseract-ocr tesseract-ocr-deu libsane-dev python3-setuptools python3-pip python3-dev git
+  - pip3 install poetry tox
 
 before_script:
-  - pip install poetry tox
-  - apt update && apt install -y tesseract-ocr tesseract-ocr-deu libsane-dev
+  - *before-script
 
 stages:
   - test
+  - build
 
 lint:
   stage: test
   script:
     - tox -e lint
+
+build-deb:
+  stage: build
+  before_script:
+    - *before-script
+    - apt update && apt install -y build-essential debhelper devscripts equivs dh-virtualenv libffi-dev
+  script:
+    - ./build-deb.sh
+    - mkdir build
+    - mv ../*.deb build/
+
+  artifacts:
+    paths:
+      - build/*
