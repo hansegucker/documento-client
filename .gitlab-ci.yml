@@ -1,8 +1,8 @@
-image: "python:3.9-buster"
+image: "debian:buster"
 
 .before-script: &before-script
+  - apt update && apt install -y tesseract-ocr tesseract-ocr-deu libsane-dev python3-setuptools python3-pip python3-dev
   - pip install poetry tox
-  - apt update && apt install -y tesseract-ocr tesseract-ocr-deu libsane-dev
 
 before_script:
   - *before-script
