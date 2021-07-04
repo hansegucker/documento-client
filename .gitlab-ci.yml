@@ -15,7 +15,7 @@ lint:
 build-deb:
   stage: build
   before_script:
-    - apt install -y build-essential debhelper devscripts equivs dh-virtualenv
+    - apt update && apt install -y build-essential debhelper devscripts equivs dh-virtualenv
   script:
     - ./build-deb.sh
     - mkdir build
