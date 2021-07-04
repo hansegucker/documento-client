@@ -20,7 +20,7 @@ build-deb:
   stage: build
   before_script:
     - *before-script
-    - apt update && apt install -y build-essential debhelper devscripts equivs dh-virtualenv
+    - apt update && apt install -y build-essential debhelper devscripts equivs dh-virtualenv libffi-dev
   script:
     - ./build-deb.sh
     - mkdir build
