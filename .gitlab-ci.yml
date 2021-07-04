@@ -1,5 +1,4 @@
-image: "python:3.9"
-
+image: "python:3.9-buster"
 before_script:
   - pip install poetry tox
   - apt update && apt install -y tesseract-ocr tesseract-ocr-deu libsane-dev
