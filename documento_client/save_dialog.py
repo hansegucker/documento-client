@@ -33,9 +33,20 @@ class SaveDialog(QObject):
         except AuthException:
             self.error_auth.emit()
 
+        categories = {category["id"]: category for category in self.categories}
+
         self.dialog.category.addItem("---")
+
         for category in self.categories:
-            self.dialog.category.addItem(category["name"])
+            current_category = category
+            cat_list = [current_category]
+
+            while current_category["parent"]:
+                cat_list.insert(0, categories[current_category["parent"]])
+                current_category = categories[current_category["parent"]]
+
+            cat_name = " / ".join([cat["name"] for cat in cat_list])
+            self.dialog.category.addItem(cat_name)
 
     def show(self):
         self.dialog.exec_()
